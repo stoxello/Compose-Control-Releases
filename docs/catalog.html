@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse the built-in app templates in Compose Control and learn how to deploy one as a Docker Compose stack.">
+  <meta name="theme-color" content="#142c27">
+  <title>App catalog | Compose Control</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">▤</span> Compose Control</a>
+      <nav aria-label="Main navigation">
+        <a href="./#install">Install</a>
+        <a href="./#use">Usage</a>
+        <a href="catalog.html" aria-current="page">App catalog</a>
+        <a href="https://github.com/stoxello/Compose-Control-Releases">Release files <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap catalog-hero">
+        <p class="eyebrow">16 BUILT-IN TEMPLATES</p>
+        <h1>App catalog</h1>
+        <p class="hero-copy">Start with a template, set the options for your host, and deploy it as a Docker Compose stack.</p>
+        <div class="hero-links">
+          <a class="button" href="#templates">Browse templates <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#deploy">How to deploy <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap content-section" id="templates">
+      <section class="catalog-group" aria-labelledby="home-apps">
+        <h2 id="home-apps">Home and media</h2>
+        <ul class="catalog-grid" role="list">
+          <li><p class="eyebrow">Media</p><h3>Jellyfin</h3><p>Stream your own movies, shows, and music.</p></li>
+          <li><p class="eyebrow">Photos</p><h3>Immich</h3><p>Back up and browse your photos and videos.</p></li>
+          <li><p class="eyebrow">Automation</p><h3>Home Assistant</h3><p>Control smart home devices and automate routines locally.</p></li>
+          <li><p class="eyebrow">Games</p><h3>Chunk Survival Server</h3><p>Host a persistent game world with territory and faction gameplay.</p></li>
+        </ul>
+      </section>
+
+      <section class="catalog-group" aria-labelledby="data-apps">
+        <h2 id="data-apps">Files, records, and finance</h2>
+        <ul class="catalog-grid" role="list">
+          <li><p class="eyebrow">Storage</p><h3>SafeDrop</h3><p>Share and receive files through a self-hosted server.</p></li>
+          <li><p class="eyebrow">Healthcare</p><h3>Medical Vault</h3><p>Organize medical documents with optional AI-assisted processing.</p></li>
+          <li><p class="eyebrow">Business</p><h3>Rental Manager</h3><p>Track rental properties, receipts, and documents.</p></li>
+          <li><p class="eyebrow">Finance</p><h3>RGPT</h3><p>Host an RGPT instance with persistent identity and application data.</p></li>
+          <li><p class="eyebrow">Finance</p><h3>STX Charts</h3><p>Chart markets and analyze stocks from a self-hosted app.</p></li>
+        </ul>
+      </section>
+
+      <section class="catalog-group" aria-labelledby="infra-apps">
+        <h2 id="infra-apps">Infrastructure and email</h2>
+        <ul class="catalog-grid" role="list">
+          <li><p class="eyebrow">Monitoring</p><h3>Uptime Kuma</h3><p>Monitor the availability of websites and services.</p></li>
+          <li><p class="eyebrow">Database</p><h3>PostgreSQL</h3><p>Run a relational database with persistent storage.</p></li>
+          <li><p class="eyebrow">Networking</p><h3>Nginx Proxy Manager</h3><p>Manage reverse proxies and TLS certificates through a web console.</p></li>
+          <li><p class="eyebrow">Development</p><h3>Mailpit</h3><p>Capture and inspect email sent by applications during testing.</p></li>
+          <li><p class="eyebrow">Mail</p><h3>Stalwart Mail Server</h3><p>Host email, calendars, and contacts with web administration.</p></li>
+          <li><p class="eyebrow">Mail</p><h3>Docker Mailserver</h3><p>Run SMTP and IMAP mail services in Docker.</p></li>
+          <li><p class="eyebrow">Mail</p><h3>Poste.io</h3><p>Host email with webmail, spam filtering, and TLS.</p></li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="usage-band" id="deploy">
+      <div class="wrap content-section">
+        <h2>Deploy a template</h2>
+        <ol class="instructions">
+          <li>In your Compose Control console, select the Docker host that will run the app.</li>
+          <li>Open <strong>App catalog</strong>, choose an app, and select <strong>Configure</strong>.</li>
+          <li>Set the stack name and review the template's ports, storage paths, and any required credentials. Check the Compose preview before deploying.</li>
+          <li>Deploy the app, then open <strong>Stacks</strong> to find it on the selected host.</li>
+        </ol>
+        <p class="muted">This list reflects the server image published as <code>latest</code> on <time datetime="2026-11-09">November 9, 2026</time>. Your console shows the templates included in your installed version.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <a href="./">Compose Control</a>
+      <a href="https://github.com/stoxello/Compose-Control-Releases#readme">Deployment reference ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

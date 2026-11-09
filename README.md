@@ -2,7 +2,7 @@
 
 Compose Control is a self-hosted web console for Docker and Docker Compose. Use the **server** to manage its Docker host, then install an **agent** on each additional host you want to manage from the same console.
 
-[Installation and usage guide](https://stoxello.github.io/Compose-Control-Releases/)
+[Installation and usage guide](https://stoxello.github.io/Compose-Control-Releases/) · [Built-in app catalog](https://stoxello.github.io/Compose-Control-Releases/catalog.html)
 
 ## Before you start
 

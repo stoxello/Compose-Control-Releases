@@ -37,6 +37,7 @@ code, pre, .eyebrow, .step-number, .command-heading, figcaption {
 nav { display: flex; flex-wrap: wrap; gap: .5rem 1.35rem; font-size: .92rem; color: var(--light); }
 nav a { text-decoration: none; }
 nav a:hover { text-decoration: underline; }
+nav a[aria-current="page"] { color: var(--lime); text-decoration: underline; }
 .site-header :focus-visible, .hero :focus-visible, .command :focus-visible { outline-color: var(--lime); }
 .hero-inner { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: clamp(2rem, 5vw, 4.5rem); padding-block: clamp(3.5rem, 8vw, 7rem); }
 .eyebrow { margin-bottom: 1rem; color: #376450; font-size: .76rem; font-weight: 700; letter-spacing: .11em; }
@@ -76,6 +77,12 @@ pre { margin: 0; padding: .85rem .9rem; font-size: .83rem; line-height: 1.65; wh
 .usage-band { background: #ecf1e8; border-block: 1px solid var(--line); }
 .usage-grid, .maintenance-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.7rem; }
 .usage-grid > div { padding-top: .85rem; border-top: 1px solid #a6b7a8; }
+.catalog-hero { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.catalog-group + .catalog-group { margin-top: 2.75rem; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+.catalog-grid > li { padding: 1.15rem; border: 1px solid var(--line); border-radius: .65rem; background: #fff; }
+.catalog-grid .eyebrow { margin-bottom: .45rem; }
+.catalog-grid h3 + p { margin-top: .5rem; color: var(--muted); }
 .maintenance-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 1.8rem; }
 .maintenance-grid pre { margin-top: .65rem; background: #edf2ed; border: 1px solid var(--line); border-radius: .45rem; }
 details { border-top: 1px solid var(--line); padding-block: .8rem; }
