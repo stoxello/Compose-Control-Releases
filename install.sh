@@ -8,8 +8,8 @@ fail() {
 
 role=${1:-}
 case "$role" in
-    server) manifest=compose.yaml ;;
-    agent) manifest=compose.agent.yaml ;;
+    server) manifest=compose.yaml; service=compose-control; container_port=8080 ;;
+    agent) manifest=compose.agent.yaml; service=compose-control-agent; container_port=5151 ;;
     *) fail 'Usage: bash install.sh server|agent' ;;
 esac
 
@@ -97,9 +97,35 @@ if [[ $role == agent && ! -e .env ]]; then
 fi
 
 "${docker_cli[@]}" compose -f "$manifest" up -d
-printf 'Deployment files: %s\n' "$PWD"
+
+published=$("${docker_cli[@]}" compose -f "$manifest" port "$service" "$container_port" 2>/dev/null) || published=
+published=${published%%$'\n'*}
+host_port=${published##*:}
+[[ $host_port =~ ^[0-9]+$ ]] || host_port='<published-port>'
+
+printf '\nCompose Control %s started.\n' "$role"
+printf 'Deployment directory: %s\n\n' "$PWD"
 if [[ $role == server ]]; then
-    printf 'Open http://localhost:8080 on the server (default port) and create the administrator account.\n'
+    printf '1. Open http://localhost:%s on the server.\n' "$host_port"
+    printf '   From another machine, use your configured HTTPS address or http://SERVER_HOST:%s on a trusted network.\n' "$host_port"
+    printf '   Replace SERVER_HOST with the server hostname or IP address.\n'
+    printf '2. Complete the first-run wizard to create the administrator account, then sign in.\n'
+    printf '3. Open Stacks or App catalog. To connect another Docker host, open Environments.\n'
 else
-    printf 'In Environments, add this host on port 5151 (default) with the access token from .env.\n'
+    printf '1. In the server console, open Environments > Connect a Docker host.\n'
+    printf '2. Enter a name and the endpoint http://AGENT_HOST:%s.\n' "$host_port"
+    printf '   Replace AGENT_HOST with a hostname or IP address the server container can reach.\n'
+    if [[ ${docker_cli[0]} != sudo && -n ${COMPOSE_CONTROL_AGENT_TOKEN:-} ]]; then
+        printf '3. For Access token, use the COMPOSE_CONTROL_AGENT_TOKEN value you supplied in the shell.\n'
+    else
+        printf '3. For Access token, open "%s/.env" privately and copy the value of COMPOSE_CONTROL_AGENT_TOKEN.\n' "$PWD"
+    fi
+    printf '4. Choose Add environment, then select the new host in the environment selector.\n'
 fi
+
+if [[ $host_port == '<published-port>' ]]; then
+    printf '\nReplace <published-port> with the host port from the ports section in %s.\n' "$manifest"
+fi
+printf '\nIf the service is unavailable, view its logs with:\n  cd %q &&' "$PWD"
+printf ' %q' "${docker_cli[@]}" compose -f "$manifest" logs --tail=100
+printf '\n'

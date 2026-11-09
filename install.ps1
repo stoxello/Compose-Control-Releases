@@ -28,3 +28,12 @@ if ($env:OS -eq 'Windows_NT') {
 if ($LASTEXITCODE -ne 0) {
     throw "Compose Control $roleName installation failed with exit code $LASTEXITCODE. See the output above."
 }
+
+if ($env:OS -eq 'Windows_NT') {
+    Write-Host ""
+    Write-Host "The deployment directory and log command above are inside WSL. To open that Linux shell, run:"
+    Write-Host ('  wsl.exe --distribution "{0}" --cd ~' -f $WslDistribution)
+    if ($roleName -eq 'agent') {
+        Write-Host "Use an agent address reachable from your server. If the server is on another machine, allow access to the agent port through WSL networking."
+    }
+}
