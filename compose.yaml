@@ -1,0 +1,13 @@
+services:
+  compose-control:
+    image: ${COMPOSE_CONTROL_IMAGE:-${DOCKPILOT_IMAGE:-ghcr.io/stoxello/compose-control:latest}}
+    pull_policy: always
+    container_name: compose-control
+    restart: unless-stopped
+    ports:
+      - "${COMPOSE_CONTROL_PORT:-${DOCKPILOT_PORT:-8080}}:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/app/data
+      - ./keys:/app/keys
+      - ./stacks:/opt/stacks

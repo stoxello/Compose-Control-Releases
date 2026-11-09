@@ -1,0 +1,25 @@
+services:
+  compose-control-agent:
+    image: ${COMPOSE_CONTROL_AGENT_IMAGE:-${DOCKPILOT_AGENT_IMAGE:-ghcr.io/stoxello/compose-control-agent:latest}}
+    pull_policy: always
+    container_name: compose-control-agent
+    restart: unless-stopped
+    ports:
+      - "${COMPOSE_CONTROL_AGENT_PORT:-${DOCKPILOT_AGENT_PORT:-5151}}:5151"
+    environment:
+      COMPOSE_CONTROL_AGENT_TOKEN: ${COMPOSE_CONTROL_AGENT_TOKEN:?Set a strong token for the Compose Control Agent}
+      COMPOSE_CONTROL_AGENT_REPLICA_ROOT: /opt/compose-control/replicas
+      COMPOSE_CONTROL_AGENT_STACKS_ROOT: ${COMPOSE_CONTROL_AGENT_STACKS_ROOT:-${DOCKPILOT_AGENT_STACKS_ROOT:-/opt/compose-control/stacks}}
+      ASPNETCORE_URLS: http://+:5151
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:5151/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./agent-replicas:/opt/compose-control/replicas
+      # Matching paths allow Docker to resolve relative bind mounts for agent-managed stacks.
+      - ${COMPOSE_CONTROL_AGENT_STACKS_ROOT:-${DOCKPILOT_AGENT_STACKS_ROOT:-/opt/compose-control/stacks}}:${COMPOSE_CONTROL_AGENT_STACKS_ROOT:-${DOCKPILOT_AGENT_STACKS_ROOT:-/opt/compose-control/stacks}}
+      - ./agent-docker-config:/root/.docker

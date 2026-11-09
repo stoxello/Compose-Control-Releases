@@ -1,0 +1,8 @@
+.env
+/data/
+/keys/
+/stacks/
+/agent-replicas/
+/agent-docker-config/
+/compose-control-server/
+/compose-control-agent/

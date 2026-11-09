@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Install Compose Control, a self-hosted web console for Docker and Docker Compose. Connect remote Docker hosts with Compose Control Agent.">
+  <meta name="theme-color" content="#142c27">
+  <title>Compose Control | Install and use</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">▤</span> Compose Control</a>
+      <nav aria-label="Main navigation">
+        <a href="#install">Install</a>
+        <a href="#use">Usage</a>
+        <a href="https://github.com/stoxello/Compose-Control-Releases">Release files <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div>
+          <p class="eyebrow">SELF-HOSTED DOCKER CONSOLE</p>
+          <h1>Manage your Docker hosts from one console.</h1>
+          <p class="hero-copy">Deploy Compose stacks, inspect containers, and switch between Docker hosts. Start with the server and connect agents as you add hosts.</p>
+          <div class="hero-links">
+            <a class="button" href="#server">Install the server <span aria-hidden="true">↓</span></a>
+            <a class="text-link" href="#agent">Connect a remote host <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+        <figure class="topology">
+          <figcaption>Example deployment</figcaption>
+          <div class="node node-primary">
+            <span class="node-icon" aria-hidden="true">▤</span>
+            <div><strong>Compose Control Server</strong><small>Web console and local Docker engine</small></div>
+            <code>:8080</code>
+          </div>
+          <div class="connector"><span>Private network</span></div>
+          <div class="node">
+            <span class="node-icon" aria-hidden="true">▣</span>
+            <div><strong>Compose Control Agent</strong><small>Docker engine on another host</small></div>
+            <code>:5151</code>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="wrap content-section" id="install">
+      <p class="eyebrow">GET STARTED</p>
+      <h2>Install Compose Control</h2>
+      <p class="intro">Use a Linux x86-64 host with Bash and <code>curl</code>. If Docker is missing on Ubuntu or Debian, the installer adds Docker Engine and Compose v2 using root or <code>sudo</code>. On other Linux distributions, have Docker Engine and Compose v2 ready. The agent uses <code>openssl</code> to generate its access token.</p>
+      <p class="intro">Use PowerShell on Linux or on Windows with Ubuntu on WSL 2 and systemd. On Windows, the installer runs inside Ubuntu and keeps the deployment files in its Linux home directory.</p>
+      <aside class="notice"><strong>Use a trusted network.</strong> Both services mount the Docker socket and can administer their host. Restrict access to a trusted network or VPN, use HTTPS for the console over the network, and allow only the server to reach the agent port.</aside>
+
+      <article class="install-step" id="server">
+        <div class="step-heading">
+          <span class="step-number" aria-hidden="true">01</span>
+          <div><h3>Start the server</h3><p>Run on the Docker host that will run the web console.</p></div>
+        </div>
+        <div class="command">
+          <div class="command-heading"><span>BASH</span><a href="https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.sh">View installer ↗</a></div>
+          <pre tabindex="0" aria-label="Bash server install command"><code>(installer=$(mktemp) &amp;&amp; trap 'rm -f -- "$installer"' EXIT &amp;&amp; curl -fsSL https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.sh -o "$installer" &amp;&amp; bash "$installer" server)</code></pre>
+        </div>
+        <div class="command">
+          <div class="command-heading"><span>POWERSHELL</span><a href="https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.ps1">View installer ↗</a></div>
+          <pre tabindex="0" aria-label="PowerShell server install command"><code>&amp; ([scriptblock]::Create((Invoke-RestMethod 'https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.ps1' -ErrorAction Stop))) server</code></pre>
+        </div>
+        <p>The installer creates <code>compose-control-server/</code> with the <a href="https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/compose.yaml">server Compose file</a>. On that host, open <code>http://localhost:8080</code> and follow the first-run wizard to create the administrator account. From a trusted machine on the network, use the server hostname in place of <code>localhost</code> or open your configured HTTPS address.</p>
+      </article>
+
+      <article class="install-step" id="agent">
+        <div class="step-heading">
+          <span class="step-number" aria-hidden="true">02</span>
+          <div><h3>Connect another Docker host</h3><p>Run on each additional host you want to manage.</p></div>
+        </div>
+        <div class="command">
+          <div class="command-heading"><span>BASH</span><a href="https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.sh">View installer ↗</a></div>
+          <pre tabindex="0" aria-label="Bash agent install command"><code>(installer=$(mktemp) &amp;&amp; trap 'rm -f -- "$installer"' EXIT &amp;&amp; curl -fsSL https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.sh -o "$installer" &amp;&amp; bash "$installer" agent)</code></pre>
+        </div>
+        <div class="command">
+          <div class="command-heading"><span>POWERSHELL</span><a href="https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.ps1">View installer ↗</a></div>
+          <pre tabindex="0" aria-label="PowerShell agent install command"><code>&amp; ([scriptblock]::Create((Invoke-RestMethod 'https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/install.ps1' -ErrorAction Stop))) agent</code></pre>
+        </div>
+        <p>The installer creates <code>compose-control-agent/</code> with the <a href="https://raw.githubusercontent.com/stoxello/Compose-Control-Releases/main/compose.agent.yaml">agent Compose file</a> and a private <code>.env</code> file.</p>
+        <ol class="instructions">
+          <li>In the server console, open <strong>Environments</strong> and find <strong>Connect a Docker host</strong>.</li>
+          <li>Enter a name and an address the server container can reach, such as <code>http://AGENT_HOST:5151</code>.</li>
+          <li>Open <code>compose-control-agent/.env</code> privately on the agent host. Paste the <code>COMPOSE_CONTROL_AGENT_TOKEN</code> value into <strong>Access token</strong> and choose <strong>Add environment</strong>.</li>
+          <li>Use the environment selector at the top of the console to switch to the agent.</li>
+        </ol>
+        <p class="muted">Re-running the install commands reuses your existing Compose files and agent token.</p>
+      </article>
+    </section>
+
+    <section class="usage-band" id="use">
+      <div class="wrap content-section">
+        <p class="eyebrow">IN THE CONSOLE</p>
+        <h2>Work with your stacks</h2>
+        <div class="usage-grid">
+          <div><h3>Choose a host</h3><p>The environment selector controls where you browse resources and deploy stacks. Select <strong>This host</strong> for the server's local Docker engine.</p></div>
+          <div><h3>Deploy a stack</h3><p>Open <strong>Stacks</strong> to view existing projects or create one from a Compose definition. Use the app catalog to start from a template.</p></div>
+          <div><h3>Inspect a workload</h3><p>Open <strong>Containers</strong> to view container status and logs. Open a stack to see its containers and manage its lifecycle.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap content-section" id="maintenance">
+      <p class="eyebrow">MAINTENANCE</p>
+      <h2>Update and troubleshoot</h2>
+      <p class="intro">Run the command for your service from its installation directory. The default image tags are <code>latest</code>.</p>
+      <div class="maintenance-grid">
+        <div><h3>Server update</h3><pre tabindex="0" aria-label="Server update command"><code>docker compose -f compose.yaml pull &amp;&amp; docker compose -f compose.yaml up -d</code></pre></div>
+        <div><h3>Agent update</h3><pre tabindex="0" aria-label="Agent update command"><code>docker compose -f compose.agent.yaml pull &amp;&amp; docker compose -f compose.agent.yaml up -d</code></pre></div>
+      </div>
+      <details>
+        <summary>Set up WSL 2 on Windows</summary>
+        <p>Install <a href="https://learn.microsoft.com/en-us/windows/wsl/install">Ubuntu on WSL 2</a> and verify that <a href="https://learn.microsoft.com/en-us/windows/wsl/systemd">systemd is enabled</a>. Run the PowerShell command on Windows. If you need to connect from another machine, configure <a href="https://learn.microsoft.com/en-us/windows/wsl/networking">WSL networking</a> for the server or agent port.</p>
+      </details>
+      <details>
+        <summary>Change the listening port</summary>
+        <p>Set <code>COMPOSE_CONTROL_PORT</code> for the server or <code>COMPOSE_CONTROL_AGENT_PORT</code> for the agent in the <code>.env</code> beside its Compose file. Run <code>docker compose -f FILE up -d</code> again with the corresponding filename and use the new port when connecting.</p>
+      </details>
+      <details>
+        <summary>Find out why an agent cannot connect</summary>
+        <p>Check <code>http://AGENT_HOST:5151/health</code> from the server's network. If the agent won't start, run <code>docker compose -f compose.agent.yaml logs --tail=100</code> in the agent directory. For authentication errors, check that the token in the console matches the agent's <code>.env</code>.</p>
+      </details>
+      <details>
+        <summary>Find the files to back up</summary>
+        <p>Preserve <code>data/</code>, <code>keys/</code>, and <code>stacks/</code> on the server. On each agent, preserve its <code>.env</code>, <code>agent-replicas/</code>, <code>agent-docker-config/</code>, and stacks root. Back up the volumes and bind mounts used by your deployed apps separately.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>Compose Control</span>
+      <a href="https://github.com/stoxello/Compose-Control-Releases#readme">Deployment reference ↗</a>
+    </div>
+  </footer>
+</body>
+</html>
